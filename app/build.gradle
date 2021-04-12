@@ -16,14 +16,21 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField "String", "serverUrl", "\"" + serverConfig.url + "\""
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "serverUrl"
+    productFlavors {
+        emulator {
+            versionNameSuffix "emulator"
+            dimension "serverUrl"
+            buildConfigField "String", "serverUrl", "\"" + serverConfig.emulatorLocalhost + "\""
         }
     }
     compileOptions {
@@ -65,7 +72,8 @@ dependencies {
     def retrofitVersion = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    def okHttpVersion = '3.14.9'
+    def okHttpVersion = '4.9.1'
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     def glideVersion = '4.12.0'
     implementation "com.github.bumptech.glide:glide:$glideVersion"

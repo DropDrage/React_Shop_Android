@@ -6,6 +6,7 @@ import com.wholedetail.react_shop_android.account.AccountManagementService
 import com.wholedetail.react_shop_android.network.TShirtService
 import com.wholedetail.react_shop_android.ui.home.HomeViewModel
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
@@ -14,8 +15,9 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
+import java.util.concurrent.TimeUnit
 
-private const val T_SHIRT_PATH = "tShirt"
+private const val T_SHIRT_PATH = "tShirts"
 
 val accountModule = module {
     single { AccountAuthenticator(androidContext()) }
@@ -23,14 +25,20 @@ val accountModule = module {
 }
 
 val viewModelsModule = module {
-    viewModel { HomeViewModel(get()) }
+    viewModel { params -> HomeViewModel(params[0], get()) }
 }
 
 val networkModule = module {
-    factory<Retrofit> { path ->
+    factory {
+        OkHttpClient.Builder()
+            .callTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+    }
+    factory<Retrofit> { params ->
         Retrofit.Builder()
-            .baseUrl("${BuildConfig.serverUrl}/$path/")
-            .client(OkHttpClient.Builder().build())
+            .baseUrl("${BuildConfig.serverUrl}/${params.get<String>()}/")
+            .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(EnumConverterFactory())
             .build()
