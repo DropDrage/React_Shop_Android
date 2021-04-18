@@ -7,19 +7,22 @@
 
         <variable
             name="tShirt"
-            type="com.wholedetail.react_shop_android.model.TShirt" />
+            type="com.wholedetail.react_shop_android.model.TShirtMinified" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true">
+        android:clickable="false"
+        android:focusable="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_default">
+            android:background="@drawable/ripple_dark"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/padding_default_medium">
 
             <ImageView
                 android:id="@+id/tShirtIV"
@@ -28,13 +31,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:url="@{tShirt.imageUrl}"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/titleTV"
                 style="@style/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
                 android:ellipsize="end"
                 android:singleLine="true"
@@ -44,6 +46,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tShirtIV"
                 tools:text="B.O.M.J" />
+
+            <TextView
+                android:id="@+id/authorNameTV"
+                style="@style/Username"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:background="@drawable/ripple_dark"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="@dimen/padding_default_none"
+                android:paddingEnd="@dimen/padding_default"
+                android:text="@{tShirt.author.username}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@+id/ratingBRB"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleTV"
+                tools:text="itpedia" />
+
+            <com.willy.ratingbar.BaseRatingBar
+                android:id="@+id/ratingBRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/authorNameTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/authorNameTV"
+                app:srb_drawableEmpty="@drawable/ic_star_outlined"
+                app:srb_drawableFilled="@drawable/ic_star_filled"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_starHeight="@dimen/size_rating"
+                app:srb_starPadding="@dimen/padding_star"
+                app:srb_starWidth="@dimen/size_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

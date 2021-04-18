@@ -1,4 +1,4 @@
-package com.wholedetail.gramophone.account
+package com.wholedetail.react_shop_android.account
 
 import android.accounts.AbstractAccountAuthenticator
 import android.accounts.Account
@@ -7,8 +7,6 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.wholedetail.react_shop_android.account.AUTH_TOKEN_TYPE
-import com.wholedetail.react_shop_android.account.USER_ACCOUNT_TYPE
 import com.wholedetail.react_shop_android.ui.auth.AuthActivity
 import com.wholedetail.react_shop_android.ui.auth.LoginFragment
 

@@ -1,23 +1,22 @@
 package com.wholedetail.react_shop_android.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.wholedetail.react_shop_android.base.SwipeRefreshViewModel
-import com.wholedetail.react_shop_android.model.TShirt
+import com.wholedetail.react_shop_android.base.RefreshableViewModel
+import com.wholedetail.react_shop_android.model.TShirtMinified
 import com.wholedetail.react_shop_android.model.TShirtSize
 import com.wholedetail.react_shop_android.model.Tag
 import com.wholedetail.react_shop_android.model.Topic
 import com.wholedetail.react_shop_android.model.User
 import com.wholedetail.react_shop_android.network.TShirtService
+import com.wholedetail.react_shop_android.utils.extension.defaultMutableSharedFlow
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(changeRefreshingState: (Boolean) -> Unit, private val tShirtService: TShirtService) :
-    SwipeRefreshViewModel(changeRefreshingState) {
+class HomeViewModel(private val tShirtService: TShirtService) : RefreshableViewModel() {
 
-    private val _tShirts = MutableStateFlow(emptyList<TShirt>())
-    val tShirts: Flow<List<TShirt>> = _tShirts
+    private val _tShirts = defaultMutableSharedFlow<List<TShirtMinified>>()
+    val tShirts: SharedFlow<List<TShirtMinified>> = _tShirts
 
 
     fun updateTShirts(
@@ -29,7 +28,7 @@ class HomeViewModel(changeRefreshingState: (Boolean) -> Unit, private val tShirt
         priceMax: Float? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO + refreshHandler) {
-            _tShirts.value = tShirtService.getAll(authors, topic, tag, sizes, priceMin, priceMax)
+            _tShirts.tryEmit(tShirtService.getAll(authors, topic, tag, sizes, priceMin, priceMax))
         }
     }
 

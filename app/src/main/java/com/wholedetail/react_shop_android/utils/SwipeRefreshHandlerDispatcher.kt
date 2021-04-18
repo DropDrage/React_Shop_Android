@@ -1,8 +1,7 @@
 package com.wholedetail.react_shop_android.utils
 
-import androidx.annotation.MainThread
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.scheduling.ExperimentalCoroutineDispatcher
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
@@ -13,10 +12,9 @@ class SwipeRefreshHandlerDispatcher(private val swipeRefreshingChange: (Boolean)
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         super.dispatch(context, block)
-        swipeRefreshingChange(true)
+        swipeRefreshingChange(context.isActive)
     }
 
-    @MainThread
     @InternalCoroutinesApi
     override fun releaseInterceptedContinuation(continuation: Continuation<*>) {
         super.releaseInterceptedContinuation(continuation)

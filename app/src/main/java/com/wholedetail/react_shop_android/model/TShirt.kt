@@ -5,7 +5,7 @@ import java.time.LocalDate
 data class TShirt(
     val id: Long,
     val title: String,
-    val description: String,
+    val description: String?,
     val price: Float,
     val topic: Topic,
     val createDate: LocalDate,
@@ -17,10 +17,11 @@ data class TShirt(
     lateinit var sizes: Array<TShirtSize>
     lateinit var colors: Array<String>
 
+    //ToDo is this need?
     constructor(
         id: Long,
         title: String,
-        description: String,
+        description: String?,
         price: Float,
         topic: Topic,
         createDate: LocalDate,

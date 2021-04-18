@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout
+            setOf(R.id.navHome, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

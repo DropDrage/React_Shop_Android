@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Title">
+    <style name="Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Title" parent="Text">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -15,7 +20,7 @@
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
-    <style name="SecondaryText">
+    <style name="SecondaryText" parent="Text">
         <item name="android:textColor">@color/gray_light</item>
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
@@ -24,9 +29,22 @@
         <item name="android:textColor">@color/gray_lighter</item>
     </style>
 
+    <style name="SecondaryColoredText" parent="SecondaryText">
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
     <style name="SubtitleText">
         <item name="android:textColor">@color/gray_light</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/text_size_xsmall</item>
     </style>
+
+
+    <style name="Username" parent="SecondaryColoredText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
 </resources>

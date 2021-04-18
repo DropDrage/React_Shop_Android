@@ -3,7 +3,7 @@ package com.wholedetail.react_shop_android.account
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
-import com.wholedetail.gramophone.account.credentials.UserCredentials
+import com.wholedetail.react_shop_android.account.credentials.UserCredentials
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

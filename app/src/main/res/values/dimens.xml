@@ -20,7 +20,9 @@
     <dimen name="margin_edit_button">136dp</dimen>
 
     <!--Padding-->
+    <dimen name="padding_star">2dp</dimen>
     <dimen name="padding_count_text">6dp</dimen>
+    <dimen name="padding_default_none">0dp</dimen>
     <dimen name="padding_default">8dp</dimen>
     <dimen name="padding_default_medium">16dp</dimen>
     <dimen name="padding_default_large_half">24dp</dimen>
@@ -33,4 +35,6 @@
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
+
+    <dimen name="size_rating">20dp</dimen>
 </resources>

@@ -9,26 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wholedetail.react_shop_android.R
 import com.wholedetail.react_shop_android.databinding.FragmentHomeBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
+import com.wholedetail.react_shop_android.utils.BottomSpaceItemDecoration
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.android.scope.AndroidScopeComponent
+import org.koin.androidx.scope.fragmentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment(R.layout.fragment_home), AndroidScopeComponent {
 
-    private val viewModel: HomeViewModel by viewModel() { parametersOf(binding.rootSRL::setRefreshing) }
+    override val scope by fragmentScope()
 
-    private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
+    private val viewModel by viewModel<HomeViewModel>()
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            tShirtsRV.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            tShirtsRV.adapter = TShirtsAdapter()
+            initTshirtsRV()
 
             rootSRL.setOnRefreshListener {
                 viewModel.updateTShirts()
@@ -36,15 +35,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewModel.run {
-            lifecycleScope.launchWhenStarted {
-                withContext(Dispatchers.IO) {
-                    tShirts.onEach { (binding.tShirtsRV.adapter as TShirtsAdapter).tShirts = it }
-                        .flowOn(Dispatchers.Main)
-                        .launchIn(lifecycleScope)
-                }
+            initRefreshHandler(binding.rootSRL::setRefreshing)
 
-                updateTShirts()
+            lifecycleScope.launchWhenResumed {
+                tShirts.onEach { (binding.tShirtsRV.adapter as TShirtsAdapter).tShirts = it }.launchIn(lifecycleScope)
+
+                if (tShirts.replayCache.isEmpty()) {
+                    updateTShirts()
+                }
             }
+        }
+    }
+
+
+    private fun FragmentHomeBinding.initTshirtsRV() {
+        tShirtsRV.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = TShirtsAdapter()
+            addItemDecoration(BottomSpaceItemDecoration(resources.getDimensionPixelOffset(R.dimen.margin_default)))
         }
     }
 }
